@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from io import BytesIO
 
 st.set_page_config(page_title="Classroom Grade Simulator", layout="wide")
 st.title("🎓 Classroom Grade Simulator")
@@ -18,27 +17,26 @@ if input_method == "Upload CSV":
     uploaded_file = st.sidebar.file_uploader("Upload Grade CSV", type=["csv"])
     if uploaded_file:
         df = pd.read_csv(uploaded_file)
-else:
-    if input_method == "Manual Entry":
-        num_students = st.sidebar.slider("Number of Students", 5, 50, 10)
-        grades = []
-        for i in range(num_students):
-            grade = st.sidebar.slider(f"Student {i+1} Grade", 0, 100, 75)
-            grades.append(grade)
-        df = pd.DataFrame({"Student": [f"Student {i+1}" for i in range(num_students)], "Grade": grades})
-    elif input_method == "Simulate Grades":
-        num_students = st.sidebar.slider("Number of Students", 10, 200, 30)
-        dist_type = st.sidebar.selectbox("Distribution Type", ["Normal", "Uniform"])
-        if dist_type == "Normal":
-            mean = st.sidebar.slider("Mean", 40, 100, 70)
-            std = st.sidebar.slider("Standard Deviation", 1, 30, 10)
-            grades = np.random.normal(mean, std, num_students)
-        else:
-            low = st.sidebar.slider("Min Grade", 0, 100, 50)
-            high = st.sidebar.slider("Max Grade", 50, 100, 90)
-            grades = np.random.uniform(low, high, num_students)
-        grades = np.clip(grades, 0, 100)
-        df = pd.DataFrame({"Student": [f"Student {i+1}" for i in range(num_students)], "Grade": grades.round(2)})
+elif input_method == "Manual Entry":
+    num_students = st.sidebar.slider("Number of Students", 5, 50, 10)
+    grades = []
+    for i in range(num_students):
+        grade = st.sidebar.slider(f"Student {i+1} Grade", 0, 100, 75)
+        grades.append(grade)
+    df = pd.DataFrame({"Student": [f"Student {i+1}" for i in range(num_students)], "Grade": grades})
+elif input_method == "Simulate Grades":
+    num_students = st.sidebar.slider("Number of Students", 10, 200, 30)
+    dist_type = st.sidebar.selectbox("Distribution Type", ["Normal", "Uniform"])
+    if dist_type == "Normal":
+        mean = st.sidebar.slider("Mean", 40, 100, 70)
+        std = st.sidebar.slider("Standard Deviation", 1, 30, 10)
+        grades = np.random.normal(mean, std, num_students)
+    else: # Uniform
+        low = st.sidebar.slider("Min Grade", 0, 100, 50)
+        high = st.sidebar.slider("Max Grade", 50, 100, 90)
+        grades = np.random.uniform(low, high, num_students)
+    grades = np.clip(grades, 0, 100)
+    df = pd.DataFrame({"Student": [f"Student {i+1}" for i in range(num_students)], "Grade": grades.round(2)})
 
 # --- Main Section ---
 if 'df' in locals():
