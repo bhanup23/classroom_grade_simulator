@@ -48,8 +48,8 @@ Dependencies listed in requirements.txt
 📦 Installation
 
 Clone the repository:
-git clone https://github.com/bhanup23/classroom-grade-simulator.git
-cd classroom-grade-simulator
+git clone https://github.com/bhanup23/classroom_grade_simulator.git
+cd classroom_grade_simulator
 
 
 (Optional) Create and activate a virtual environment:
